@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Support\Facades\Route;
+use Lightit\Authentication\App\Controllers\LoginController;
+use Lightit\Authentication\App\Controllers\LogoutController;
+use Lightit\Authentication\App\Controllers\RefreshController;
 use Lightit\Users\App\Controllers\{GetUserController, DeleteUserController, ListUserController, StoreUserController, UpdateUserController};
 
 /*
@@ -42,3 +45,9 @@ Route::prefix('users')
         Route::delete('/{user}', DeleteUserController::class)
             ->whereNumber('user');
     });
+
+Route::prefix('auth')->group(static function (): void {
+    Route::post('login', LoginController::class);
+    Route::post('logout', LogoutController::class);
+    Route::post('refresh', RefreshController::class);
+});
