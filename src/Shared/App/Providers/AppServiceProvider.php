@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use Laravel\Pennant\Feature;
 use Lightit\Security\Domain\Actions\PreventDebugInProductionAction;
 
 class AppServiceProvider extends ServiceProvider
@@ -63,5 +64,10 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
             $this->app->register(TelescopeServiceProvider::class);
         }
+
+        Feature::discover(
+            namespace: 'Lightit\\Shared\\App\\Features',
+            path: $this->app->basePath('src/Shared/App/Features')
+        );
     }
 }

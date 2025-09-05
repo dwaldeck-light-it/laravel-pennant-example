@@ -14,6 +14,8 @@ use Lightit\Users\App\Notifications\UserRegisteredNotification;
 use Lightit\Users\App\Resources\UserResource;
 use Lightit\Users\Domain\Models\User;
 use Tests\RequestFactories\StoreUserRequestFactory;
+
+use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\assertDatabaseMissing;
 use function Pest\Laravel\postJson;
@@ -53,6 +55,8 @@ beforeEach(fn () => Notification::fake());
 describe('users', function (): void {
     /** @see StoreUserController */
     it(description: 'can create a user successfully', closure: function (): void {
+        $loggedInUser = UserFactory::new()->createOne();
+        actingAs(user: $loggedInUser);
         $data = StoreUserRequestFactory::new()->create([
             'password' => '>e$pV4chNFcJoAB%X#{',
         ]);
@@ -86,6 +90,9 @@ describe('users', function (): void {
     });
 
     it(description: 'cannot create a user with an already registered email', closure: function (): void {
+        $loggedInUser = UserFactory::new()->createOne();
+        actingAs(user: $loggedInUser);
+
         $existingUser = UserFactory::new()->createOne();
 
         $data = StoreUserRequestFactory::new()->create([
@@ -104,6 +111,9 @@ describe('users', function (): void {
     });
 
     it('cannot create a user with invalid data', closure: function (string $field, string|array $value): void {
+        $loggedInUser = UserFactory::new()->createOne();
+        actingAs(user: $loggedInUser);
+
         $data = StoreUserRequestFactory::new()->create();
 
         $response = postJson(url('/api/users'), [...$data, $field => $value]);
@@ -113,6 +123,9 @@ describe('users', function (): void {
     })->with('validation-rules');
 
     it(description: 'triggers user registration notification', closure: function (): void {
+        $loggedInUser = UserFactory::new()->createOne();
+        actingAs(user: $loggedInUser);
+
         Notification::fake();
 
         $data = StoreUserRequestFactory::new()->create();
