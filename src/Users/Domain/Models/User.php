@@ -40,6 +40,10 @@ use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  *
+ * @property bool $is_beta_tester
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereIsBetaTester($value)
+ *
  * @mixin \Eloquent
  */
 class User extends Authenticatable implements JWTSubject

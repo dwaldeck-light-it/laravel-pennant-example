@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Lightit\Authentication\App\Controllers\LoginController;
 use Lightit\Authentication\App\Controllers\LogoutController;
 use Lightit\Authentication\App\Controllers\RefreshController;
+use Lightit\Features\App\Controllers\ListFeaturesController;
 use Lightit\Users\App\Controllers\{GetUserController, DeleteUserController, ListUserController, StoreUserController, UpdateUserController};
 
 /*
@@ -32,9 +33,8 @@ Route::middleware('auth:sanctum')
 | Users Routes
 |--------------------------------------------------------------------------
 */
-Route::prefix('users')
-    ->middleware([])
-    ->group(static function (): void {
+Route::middleware(['auth:api'])->group(static function (): void {
+    Route::prefix('users')->group(static function (): void {
         Route::get('/', ListUserController::class);
         Route::get('/{user}', GetUserController::class)
             ->withTrashed()
@@ -45,6 +45,8 @@ Route::prefix('users')
         Route::delete('/{user}', DeleteUserController::class)
             ->whereNumber('user');
     });
+});
+Route::get('/features', ListFeaturesController::class);
 
 Route::prefix('auth')->group(static function (): void {
     Route::post('login', LoginController::class);
