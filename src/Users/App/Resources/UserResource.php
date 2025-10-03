@@ -7,7 +7,6 @@ namespace Lightit\Users\App\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Laravel\Pennant\Feature;
-use Lightit\Shared\App\Features\BetaUsersFlag;
 use Lightit\Users\Domain\Models\User;
 
 /**
@@ -25,7 +24,7 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'email_address' => $this->email,
             'beta_notes' => $this->when(
-                Feature::active(BetaUsersFlag::class),
+                Feature::active('feature-a'),
                 'This field is visible only to beta testers'
             ),
         ];
