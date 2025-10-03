@@ -14,3 +14,4 @@ parameters:
     ignoreErrors:
         - '#^Illuminate\\Support\\Facades\\[a-zA-Z0-9\\_]+ facade should not be used\.$#'
         - '#^Laravel\\Pennant\\Feature facade should not be used\.$#'
+        - '#^QodeNL\\LaravelPosthog\\Facades\\Posthog facade should not be used\.$#'

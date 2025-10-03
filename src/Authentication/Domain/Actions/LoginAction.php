@@ -10,6 +10,7 @@ use Lightit\Shared\App\Exceptions\Http\UnauthorizedException;
 use Lightit\Users\Domain\Models\User;
 use PHPOpenSourceSaver\JWTAuth\Factory as JWTAuth;
 use PHPOpenSourceSaver\JWTAuth\JWTGuard;
+use QodeNL\LaravelPosthog\Facades\Posthog;
 
 final class LoginAction
 {
@@ -27,6 +28,12 @@ final class LoginAction
 
         if (! $token = $guard->attempt($credentials)) {
             throw new UnauthorizedException();
+        }
+
+        $user = User::where('email', $credentials['email'])->first();
+
+        if ($user) {
+            Posthog::identify($user->email, ['first_name' => $user->name, 'is_beta_tester' => $user->is_beta_tester]);
         }
 
         /** @var string $token */

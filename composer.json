@@ -18,6 +18,8 @@
     "laravel/tinker": "^2.10.1",
     "light-it-labs/lightit-auth-laravel": "^1.1",
     "php-open-source-saver/jwt-auth": "^2.0",
+    "posthog/posthog-php": "^3.7.1",
+    "qodenl/laravel-posthog": "^1.2",
     "sentry/sentry-laravel": "^4.4",
     "spatie/laravel-query-builder": "^6.0"
   },

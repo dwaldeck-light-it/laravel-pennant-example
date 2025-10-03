@@ -29,7 +29,9 @@ return [
     */
 
     'stores' => [
-
+        'posthog' => [
+            'driver' => 'posthog',
+        ],
         'array' => [
             'driver' => 'array',
         ],
