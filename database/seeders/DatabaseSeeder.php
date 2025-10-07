@@ -15,6 +15,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        UserFactory::new()->createMany(35);
+        UserFactory::new()->create([
+            'email' => "user1@test.com",
+            'is_beta_tester' => true
+        ]);
+        UserFactory::new()->create([
+            'email' => "user2@test.com",
+            'is_beta_tester' => false
+        ]);
     }
 }
