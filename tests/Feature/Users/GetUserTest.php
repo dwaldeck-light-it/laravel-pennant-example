@@ -9,11 +9,16 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Lightit\Users\App\Controllers\GetUserController;
 use Lightit\Users\App\Resources\UserResource;
+
+use function Pest\Laravel\actingAs;
 use function Pest\Laravel\getJson;
 
 describe('users', function (): void {
     /** @see GetUserController */
     it('retrieves a user and returns a successful response', function (): void {
+        $loggedInUser = UserFactory::new()->createOne();
+        actingAs(user: $loggedInUser);
+
         $existingUser = UserFactory::new()->createOne();
 
         getJson("api/users/$existingUser->id")
@@ -30,6 +35,9 @@ describe('users', function (): void {
     });
 
     it('returns a 404 response when user is not found', function (): void {
+        $loggedInUser = UserFactory::new()->createOne();
+        actingAs(user: $loggedInUser);
+
         $nonExistentUserId = 99999;
 
         getJson("api/users/{$nonExistentUserId}")

@@ -12,6 +12,8 @@ use Lightit\Users\App\Controllers\UpdateUserController;
 use Lightit\Users\App\Resources\UserResource;
 use Lightit\Users\Domain\Models\User;
 use Tests\RequestFactories\StoreUserRequestFactory;
+
+use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\putJson;
 
@@ -20,6 +22,9 @@ beforeEach(fn () => Notification::fake());
 describe('users', function (): void {
     /** @see UpdateUserController */
     it('can create a user successfully', function (): void {
+        $loggedInUser = UserFactory::new()->createOne();
+        actingAs(user: $loggedInUser);
+
         $user = UserFactory::new()->createOne([
             'name' => 'old',
         ]);
@@ -55,6 +60,9 @@ describe('users', function (): void {
     });
 
     it('can edit a user with the same registered email', function (): void {
+        $loggedInUser = UserFactory::new()->createOne();
+        actingAs(user: $loggedInUser);
+
         $existingUser = UserFactory::new()->createOne();
 
         $data = StoreUserRequestFactory::new()->create([
@@ -72,6 +80,9 @@ describe('users', function (): void {
     });
 
     it('cannot create a user with invalid data', function (): void {
+        $loggedInUser = UserFactory::new()->createOne();
+        actingAs(user: $loggedInUser);
+
         $existingUser = UserFactory::new()->createOne();
 
         $data = [

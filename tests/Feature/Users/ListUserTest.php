@@ -6,16 +6,21 @@ namespace Tests\Feature\Users;
 
 use Database\Factories\UserFactory;
 use Lightit\Users\App\Controllers\StoreUserController;
+
+use function Pest\Laravel\actingAs;
 use function Pest\Laravel\getJson;
 
 describe('users', function (): void {
     /** @see StoreUserController */
     it('can list users successfully', function (): void {
+        $loggedInUser = UserFactory::new()->createOne();
+        actingAs(user: $loggedInUser);
+
         $users = UserFactory::new()
             ->createMany(5);
 
         getJson(url('/api/users'))
             ->assertSuccessful()
-            ->assertJsonCount(5, 'data');
+            ->assertJsonCount(6, 'data');
     });
 });

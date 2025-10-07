@@ -32,9 +32,8 @@ Route::middleware('auth:sanctum')
 | Users Routes
 |--------------------------------------------------------------------------
 */
-Route::prefix('users')
-    ->middleware([])
-    ->group(static function (): void {
+Route::middleware(['auth:api'])->group(static function (): void {
+    Route::prefix('users')->group(static function (): void {
         Route::get('/', ListUserController::class);
         Route::get('/{user}', GetUserController::class)
             ->withTrashed()
@@ -45,6 +44,7 @@ Route::prefix('users')
         Route::delete('/{user}', DeleteUserController::class)
             ->whereNumber('user');
     });
+});
 
 Route::prefix('auth')->group(static function (): void {
     Route::post('login', LoginController::class);
